@@ -1,5 +1,6 @@
 import { logger } from '../shared/logger.js';
 import { createNotification, isEventProcessed, markEventProcessed } from '../modules/notifications/notificationRepo.js';
+import { emitNotificationToUser } from '../realtime/websocket.js';
 
 export type EventEnvelope = {
 	eventId: string
@@ -34,7 +35,8 @@ async function handleCommentCreated(evt: EventEnvelope) {
 	// Assume context has ownerUserId of the post/comment owner to notify
 	const ownerUserId = String((evt.target as any)?.ownerUserId ?? '');
 	if (!ownerUserId) return;
-	await createNotification({
+	
+	const notification = await createNotification({
 		userId: ownerUserId,
 		type: 'comment_created',
 		title: 'New comment on your post',
@@ -43,5 +45,8 @@ async function handleCommentCreated(evt: EventEnvelope) {
 		isRead: false,
 		dedupeKey: evt.eventId
 	});
+
+	// Emit real-time notification via WebSocket
+	emitNotificationToUser(ownerUserId, notification);
 }
 

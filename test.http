@@ -1,34 +1,34 @@
 ### Health check
-GET http://localhost:3000/health
+GET http://localhost:5000/health
 
 ### Get notifications
-GET http://localhost:3001/notifications?userId=PAL69Ba5BBWi9dggeGaxlGvgAgt1&limit=20&offset=0
+GET http://localhost:5000/notifications?userId=PAL69Ba5BBWi9dggeGaxlGvgAgt1&limit=20&offset=0
 
 ### Mark notification as read
-PATCH http://localhost:3000/notifications/123/read
+PATCH http://localhost:5000/notifications/123/read
 Content-Type: application/json
 
 {
-  "userId": "test123"
+  "userId": "PAL69Ba5BBWi9dggeGaxlGvgAgt1"
 }
 
 ### Mark all notifications as read
-PATCH http://localhost:3000/notifications/read-all
+PATCH http://localhost:5000/notifications/read-all
 Content-Type: application/json
 
 {
-  "userId": "test123"
+  "userId": "PAL69Ba5BBWi9dggeGaxlGvgAgt1"
 }
 
 ### Get user preferences
-GET http://localhost:3000/preferences?userId=test123
+GET http://localhost:5000/preferences?userId=PAL69Ba5BBWi9dggeGaxlGvgAgt1
 
 ### Update user preferences
-PUT http://localhost:3000/preferences
+PUT http://localhost:5000/preferences
 Content-Type: application/json
 
 {
-  "userId": "test123",
+  "userId": "PAL69Ba5BBWi9dggeGaxlGvgAgt1",
   "inApp": true,
   "email": false,
   "push": false,

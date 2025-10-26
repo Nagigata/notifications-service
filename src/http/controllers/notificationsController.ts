@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as repo from '../../modules/notifications/notificationRepo.js';
+import { emitNotificationUpdateToUser } from '../../realtime/websocket.js';
 
 /**
  * @swagger
@@ -96,7 +97,13 @@ export async function markRead(req: Request, res: Response) {
 	const userId = (req.body.userId as string) ?? '';
 	const id = req.params.id;
 	if (!userId) return res.status(400).json({ error: 'userId required' });
+	
+	// Update database
 	await repo.markNotificationRead(userId, id);
+	
+	// Emit real-time update via WebSocket
+	emitNotificationUpdateToUser(userId, id, { read: true });
+	
 	res.status(204).end();
 }
 
@@ -131,6 +138,12 @@ export async function markRead(req: Request, res: Response) {
 export async function markAll(req: Request, res: Response) {
 	const userId = (req.body.userId as string) ?? '';
 	if (!userId) return res.status(400).json({ error: 'userId required' });
+	
+	// Update database
 	await repo.markAllRead(userId);
+	
+	// Emit real-time update for all notifications
+	emitNotificationUpdateToUser(userId, 'all', { read: true });
+	
 	res.status(204).end();
 }

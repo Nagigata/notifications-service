@@ -20,7 +20,7 @@ async function sendTestEvent() {
       commentId: 'c456', 
       ownerUserId: 'PAL69Ba5BBWi9dggeGaxlGvgAgt1' // Người sẽ nhận notification
     },
-    context: { snippet: 'Chim to đấy' },
+    context: { snippet: 'Test socket IO' },
     traceId: 'trace-abc'
   };
 
